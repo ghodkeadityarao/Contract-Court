@@ -3,7 +3,9 @@
 **Find out who a data change will break, agree a plan with the affected teams, and enforce it.**
 
 ![Built on Databricks](https://img.shields.io/badge/built%20on-Databricks-ff3621)
-![App](https://img.shields.io/badge/app-Streamlit-ff4b4b)
+[![App](https://img.shields.io/badge/app-Streamlit-ff4b4b)](https://contract-court.streamlit.app/)
+
+**Live app:** https://contract-court.streamlit.app/
 
 When a team changes a data column, the teams that depend on it usually find out after their reports break.
 Contract Court measures which downstream reports a change would break, lets the affected teams negotiate a
@@ -55,6 +57,8 @@ flowchart LR
 | `build_notebooks.py` | Re-embeds `engine/` into `notebooks/00_install_engine.py` |
 
 ## Run the app
+
+The hosted version is at https://contract-court.streamlit.app/. To run it locally:
 
 ```bash
 pip install -r app/requirements.txt
