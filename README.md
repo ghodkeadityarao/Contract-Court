@@ -1,5 +1,10 @@
 # Contract Court
 
+**Find out who a data change will break, agree a plan with the affected teams, and enforce it.**
+
+![Built on Databricks](https://img.shields.io/badge/built%20on-Databricks-ff3621)
+![App](https://img.shields.io/badge/app-Streamlit-ff4b4b)
+
 When a team changes a data column, the teams that depend on it usually find out after their reports break.
 Contract Court measures which downstream reports a change would break, lets the affected teams negotiate a
 safe plan, and records the agreement as a contract that blocks changes that ignore it.
@@ -14,6 +19,28 @@ safe plan, and records the agreement as a contract that blocks changes that igno
    escalated to a person when no deal is possible. The negotiation can run on fixed rules or with a Databricks
    model; fixed rules always decide whether the final deal is valid.
 3. **Enforce.** The deal becomes a versioned contract. A migration that conflicts with it is blocked.
+
+## How it fits together
+
+```mermaid
+flowchart LR
+    A["samples.wanderbricks<br/>16 tables"] --> B["Sandbox copies and<br/>33 generated reports"]
+    B --> C["Impact tests<br/>drop, rename, retype, rescale"]
+    C --> D[("snapshot.json")]
+    D --> E["Negotiation<br/>fixed rules or a model,<br/>refereed by rules"]
+    E --> F["Versioned contract<br/>check_change blocks conflicts"]
+    D --> G["Streamlit app"]
+    E --> G
+```
+
+| Databricks feature | Used for |
+|---|---|
+| Unity Catalog and Delta | Sample tables, generated report views and lineage |
+| Serverless Spark SQL | Running the impact tests |
+| Volumes | Exporting `snapshot.json` |
+| `ai_query` with Llama 3.3 70B | Model-negotiated deals |
+| MLflow | Logging each negotiation's prompts and replies |
+| Databricks Apps | Optional deployment of the Streamlit app |
 
 ## Repository layout
 
